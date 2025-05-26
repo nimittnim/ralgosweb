@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header  -->
+  <header class="site-header">
+    ralgos 
+    </header>
+    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+        <center>
+                                                            * Undergraduate Student, IIT Gandhinagar <br>
+                                                    # Sr. Lecturer, The University of Sydney
+        </center>
+    </div>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../proposal.html">Project Proposal</a>
+        <a href="../literature.html">Literature Review</a>
+        <a href="../progress.html">Findings</a>
+        <a href="../ralgolib.html">Ralgos</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+<!-- Body -->
+  <div class="container">
+   <div class="display">
+    <div class="title">Probability Basics</div>
+    <div class="block">
+      <div class="heading">Introduction</div>
+      Probability quantifies uncertainty. It provides a framework for reasoning about the likelihood of various outcomes of random phenomena. Consider a random experiment \(E\), for example, rolling a die. Let \(\S\) be the set of all outcomes of the experiment \(E\). We denote the probability of an event \(A\) \(\subseteq \S\) by \(\Pr[A]\). If all the outcomes of the experiment are equally likely then, \(\Pr[A] = |A| / |\S|\).
+
+      <br><br>
+      <div class="heading">Random Variable</div>
+      <div class="subblock"> 
+        <div class="subheading">Definition: Random variable</div>
+      A random variable characterizes a probabilistic event. For example, let \( X \) be a random variable representing the outcome of a die roll. Then we can define \( X \) as:
+      \(
+      X := \begin{cases}
+      i & \text{where } i \in \{1, 2, 3, 4, 5, 6\} \text{ is the outcome of the die roll}
+      \end{cases}
+      \)
+      Assuming the die is fair, the probability of each face appearing is equal. This can be written as, \(
+      \Pr[X = i] = \frac{1}{6},\) for \(i = 1, 2, \ldots, 6
+      \)
+      </div>
+      <div class="subblock">
+      <div class="subheading">Remark: Discrete and Continuous Random Variable</div>
+      If a random variable \(X\) takes values in discrete space then, it is called discrete random variable otherwise if it takes values in continuous space then, it is called continuous random variable.
+      </div>
+      
+      <br>
+      <div class="heading">Probability Distribution Function </div>
+      A Probability Distribution Function describes how probabilities are distributed over the values of a random variable. We denote PDF of a random variable \(X\) by \(f(x)\). For discrete random variables, it gives the probability of each value. For continuous ones, it represents the density function whose integral over an interval gives the probability. 
+      <div class="subblock">
+        <div class="subheading">Definition: Probability Distribution Function</div>
+      Let \(X_d\) and \(X_c\) be discrete and continuous random variables with probability distribution functions \(f_d\) and 
+      \(f_c\) respectively. Then,
+      
+
+      \begin{aligned}
+      \boxed{
+      \Pr[X_d = k] = f_d(k), \quad \quad
+      \Pr[X_c \in [a,b]] = \int_{a}^{b} f_c(x)\, dx } 
+      \end{aligned}
+      </div>
+      
+      
+      <div class="subblock">
+      <div class="subheading">Definition: Expectation of Random Variable</div>
+      The expectation or expected value of a random variable \( X \), denoted by \( \mathbb{E}[X] \), represents the long-run average value of repetitions of the experiment:
+        \begin{aligned}
+        \boxed{
+        \mathbb{E}[X_d] = \sum_x x \Pr[X_d = x], \quad \quad
+        \mathbb{E}[X_c] = \int_{-\infty}^{\infty} x f_c(x) \, dx
+        }
+        \end{aligned}
+        </div>
+
+      <div class="subblock">
+      <div class="subheading">Definition: Variance of Random Variable</div>
+      The variance of a random variable \( X \) measures how much the values of \( X \) deviate from the mean. It quantifies the spread or dispersion of the distribution.
+      \[
+      \boxed{
+      \Var(X) = \mathbb{E}[(X - \mathbb{E}[X])^2]
+      }
+      \]
+      </div>
+      The concept of expectation and variance can be generalized to get higher moments.
+      <div class="subblock">
+        <div class="subheading">Remark: Higher Moments</div>
+      \(n\)-th moment of random variable \(X\) is defined as \( \mathbb{E}[X^n] \). Central moment is defined as \( \mathbb{E}[(X - \mathbb{E}[X])^n] \).
+      </div>
+      <div class="subblock">
+        <div class="subheading">Example: Important Probability Distribution Functions</div>
+      </div>
+
+      <!-- Normal Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Normal Distribution</div>
+  Continuous bell-shaped distribution defined by mean \( \mu \) and variance \( \sigma^2 \):
+  \[
+  \boxed{ f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ -\frac{(x - \mu)^2}{2\sigma^2} } }
+  \]
+  \( \mathbb{E}[X] = \mu,\quad \text{Var}(X) = \sigma^2 \)
+</div>
+
+<!-- Binomial Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Binomial Distribution</div>
+  Discrete distribution over \( n \) trials with success probability \( p \):
+  \[
+  \boxed{ f(k) = \binom{n}{k} p^k (1 - p)^{n - k} }
+  \]
+  \( \mathbb{E}[X] = np,\quad \text{Var}(X) = np(1 - p) \)
+</div>
+
+<!-- Bernoulli Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Bernoulli Distribution</div>
+  Models a single trial with success probability \( p \):
+  \[
+  \boxed{ f(k) = p^k (1 - p)^{1 - k}, \quad k \in \{0, 1\} }
+  \]
+  \( \mathbb{E}[X] = p,\quad \text{Var}(X) = p(1 - p) \)
+</div>
+
+<!-- Uniform Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Uniform Distribution</div>
+  Continuous distribution on interval \( [a, b] \):
+  \[
+  \boxed{ f(x) = \frac{1}{b - a}, \quad x \in [a, b] }
+  \]
+  \( \mathbb{E}[X] = \frac{a + b}{2},\quad \text{Var}(X) = \frac{(b - a)^2}{12} \)
+</div>
+
+<!-- Geometric Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Geometric Distribution</div>
+  Number of trials until the first success:
+  \[
+  \boxed{ f(k) = (1 - p)^{k - 1} p, \quad k = 1, 2, \ldots }
+  \]
+  \( \mathbb{E}[X] = \frac{1}{p},\quad \text{Var}(X) = \frac{1 - p}{p^2} \)
+</div>
+
+<!-- Poisson Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Poisson Distribution</div>
+  Number of events in fixed interval with rate \( \lambda \):
+  \[
+  \boxed{ f(k; \lambda) = \frac{\lambda^k e^{-\lambda}}{k!} }
+  \]
+  \( \mathbb{E}[X] = \lambda,\quad \text{Var}(X) = \lambda \)
+</div>
+
+<!-- Exponential Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Exponential Distribution</div>
+  Time between Poisson events:
+  \[
+  \boxed{ f(x) = \lambda e^{-\lambda x}, \quad x \geq 0 }
+  \]
+  \( \mathbb{E}[X] = \frac{1}{\lambda},\quad \text{Var}(X) = \frac{1}{\lambda^2} \)
+</div>
+
+<!-- Rayleigh Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Rayleigh Distribution</div>
+  Models magnitude of 2D vector with independent normal components:
+  \[
+  \boxed{ f(x; \sigma) = \frac{x}{\sigma^2} e^{-x^2 / (2\sigma^2)}, \quad x \geq 0 }
+  \]
+  \( \mathbb{E}[X] = \sigma \sqrt{\pi / 2},\quad \text{Var}(X) = \left(2 - \frac{\pi}{2}\right) \sigma^2 \)
+</div>
+
+<!-- Chi-Square Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Chi-Square Distribution</div>
+  Sum of squares of \( k \) standard normal variables:
+  \[
+  \boxed{ f(x; k) = \frac{1}{2^{k/2} \Gamma(k/2)} x^{k/2 - 1} e^{-x/2}, \quad x \geq 0 }
+  \]
+  \( \mathbb{E}[X] = k,\quad \text{Var}(X) = 2k \)
+</div>
+
+<!-- Log-Normal Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Log-Normal Distribution</div>
+  If \( \ln(X) \sim \mathcal{N}(\mu, \sigma^2) \), then \( X \) is log-normally distributed:
+  \[
+  \boxed{ f(x) = \frac{1}{x\sigma \sqrt{2\pi}} e^{- \frac{(\ln x - \mu)^2}{2\sigma^2}}, \quad x > 0 }
+  \]
+  \( \mathbb{E}[X] = e^{\mu + \sigma^2 / 2},\quad \text{Var}(X) = (e^{\sigma^2} - 1) e^{2\mu + \sigma^2} \)
+</div>
+
+<!-- Gamma Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Gamma Distribution</div>
+  Generalized exponential distribution with shape \( \alpha \) and rate \( \beta \):
+  \[
+  \boxed{ f(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha - 1} e^{-\beta x}, \quad x \geq 0 }
+  \]
+  \( \mathbb{E}[X] = \frac{\alpha}{\beta},\quad \text{Var}(X) = \frac{\alpha}{\beta^2} \)
+</div>
+
+<!-- Beta Distribution -->
+<div class="subsubblock">
+  <div class="subsubheading">Beta Distribution</div>
+  Continuous distribution on \( [0, 1] \), used in Bayesian statistics:
+  \[
+  \boxed{ f(x) = \frac{x^{\alpha - 1} (1 - x)^{\beta - 1}}{B(\alpha, \beta)}, \quad 0 < x < 1 }
+  \]
+  \( \mathbb{E}[X] = \frac{\alpha}{\alpha + \beta},\quad \text{Var}(X) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)} \)
+</div>
+
+
+
+      <div class="heading">Cumulative Distribution Function (CDF)</div>
+       The Cumulative Distribution Function (CDF) of a random variable \( X \) quantifies the spread or dispersion of the distribution. It is denoted by \(F(x)\) and gives the probability that \( X \) takes a value less than or equal to \( x \).
+      <div class="subblock"><div class="subheading">Definiton: Commulative Distribution Function</div>
+      CDF for a random variable \(X\), \(F(x)\),
+      \[
+      \boxed{
+      F(x) = \Pr[X \leq x]
+      }
+      \]
+      
+      </div>
+      <div class="subblock">
+      <div class="subheading">Theorem: Relation to Probability Distribution Function</div>
+      For a continuous random variable, the Cumulative Distribution Function (CDF) \( F(x) \) is related to the Probability Density Function (PDF) \( f(x) \) by:
+      \[
+      \boxed{
+      F(x) = \int_{-\infty}^x f(t)\, dt \quad \text{and} \quad f(x) = \frac{d}{dx}F(x)
+      }
+      \]
+     
+    </div>
+
+
+      <div class="heading">Independence</div>
+      <div class="subblock"><div class="subheading">Definition</div>
+Two random variables \( X \) and \( Y \) are independent if,
+\[
+\boxed{
+\Pr[X \leq x, Y \leq y] = \Pr[X \leq x] \cdot \Pr[Y \leq y
+}
+\]
+
+</div>
+<div class="subblock"><div class="subheading">Remark</div> 
+If \(X\) and \(Y\) are independent then, \( \mathbb{E}[XY] = \mathbb{E}[X]\mathbb{E}[Y] \).
+</div>
+
+<div class="heading">Covariance and Correlation</div>
+<div class="subblock"><div class="subheading">Defintion: Covariance</div>
+Covariance between random variable \(X\) and \(Y\) is defined as,
+\[
+\boxed{
+\text{Cov}(X, Y) = \mathbb{E}[(X - \E[X])(Y - \E[Y])]
+}
+\]</div><div class="subblock"><div class="subheading">Defintion: Correlation</div>
+Correlation is the normalized covariance:
+\[
+\boxed{
+\rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}
+}
+\]
+where \( -1 \leq \rho \leq 1 \).</div>
+
+<div class="heading">Moment Generating Function (MGF)</div>
+<div class="subblock"><div class="subheading">Definition: MGF</div>
+The MGF of a random variable \( X \) is defined as:
+\[
+\boxed{
+M_X(t) = \mathbb{E}[e^{tX}]
+}
+\]
+The \( n^\text{th} \) moment of \(X\) is given by,
+\[
+\mathbb{E}[X^n] = M_X^{(n)}(0)
+\]</div>
+
+
+<div class="heading">Markov's Inequality</div>
+<div class="subblock"><div class="subheading">Theorem: Markov's Inequality</div>
+For a non-negative random variable \( X \) and \( a > 0 \):
+\[
+\boxed{
+\Pr[X \geq a] \leq \frac{\mathbb{E}[X]}{a}
+}
+\]</div>
+
+      
+      <div class="heading">Law of Large Numbers</div>
+      
+      <div class="subblock"><div class="subheading">Theorem: Law of Large Numbers</div>
+      The Law of Large Numbers (LLN) states that as the number of trials increases, the sample average of the outcomes converges to the expected value:
+      \[
+      \boxed{
+      \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{n \to \infty} \mathbb{E}[X]
+      }
+      \]
+    </div>
+
+      
+      <div class="heading">Central Limit Theorem</div>
+      <div class="subblock"><div class="subheading">Theorem: Central Limit Theorem</div>
+      The Central Limit Theorem (CLT) states that the sum (or average) of a large number of i.i.d. random variables approximately follows a normal distribution, regardless of the original distribution:
+      \[
+      \boxed{
+      \frac{\sum_{i=1}^n X_i - n\mu}{\sqrt{n\sigma^2}} \xrightarrow{d} \mathcal{N}(0, 1)
+      }
+      \]
+      
+    </div>
+
+     
+</div>
+<!-- Footer -->
+    </div>
+  </div>
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+
+</html>

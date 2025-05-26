@@ -8,6 +8,10 @@ body {
   font-family: Arial, sans-serif;
 }
 
+a {
+  color: black;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -20,6 +24,7 @@ body {
   margin: 0 auto;
   background-color: white;
   text-align: left;
+  font-family: "CMU Serif", serif;
 }
 
 .site-footer {
@@ -33,6 +38,39 @@ body {
 
 .heading{
   color: blue;
+  font-size: larger;
+  font-style: bolder;
+}
+
+.subheading{
+  color: rgb(202, 33, 155);
+  font-style:italic;
+  font-size: large;
+}
+
+.subsubheading{
+  font-style:italic;
+  color:red;
+}
+
+.block{
+  margin-left: 15px;
+  margin-right:15px;
+}
+
+.subblock{
+  margin-left:0px;
+  margin-top:0px;
+  margin-bottom:10px;
+}
+
+.subsubblock{
+  margin-left:0px;
+}
+
+.title{
+  font-size: larger;
+  text-align: center;
 }
 
 .site-header {

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header  -->
+  <header class="site-header">
+    ralgos 
+    </header>
+    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+        <center>
+                                                            * Undergraduate Student, IIT Gandhinagar <br>
+                                                    # Sr. Lecturer, The University of Sydney
+        </center>
+    </div>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../proposal.html">Project Proposal</a>
+        <a href="../literature.html">Literature Review</a>
+        <a href="../progress.html">Findings</a>
+        <a href="../ralgolib.html">Ralgos</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+<!-- Body -->
+  <div class="container">
+    <div class="display">
+       <div class="title">Two-Point Based Sampling</div>
+<div class="block">
+<div class="heading">Introduction</div>
+Randomized algorithms can be viewed as two-input algorithms: one input is the actual problem instance, and the other is a random string. The universal set of random inputs contains certain "good" random inputs that yield correct or desirable outputs for a given problem input. Traditional randomized algorithms typically sample independently from this universal set to increase the likelihood of hitting one of these good inputs, thereby reducing the failure probability exponentially. However, such independent sampling requires substantial randomness, which can be resource-intensive. Two-point based sampling addresses this issue by using only two truly random inputs to generate a sequence of pairwise independent samples, significantly reducing the amount of randomness needed while maintaining strong probabilistic guarantees.
+
+
+<br><br>
+<div class="heading">Two-Point Based Sampling</div>
+Let \(U\) be the set of all random inputs and \(S\) be the "good" random inputs set. We take \(U = \Z_{p}\) and \(S \in U\) such that density \( \rho = |S|/|U|\). The following defines the construction for \(L\) samples in \(U\) that are pairwise independent.
+<div class="subblock">
+  <div class="subheading">Definition</div>
+  Let two independent random elements \( x, y \in U\). Define a sequence \( \{ r_i \} \) for \( i = 1 \) to \( L \) as:
+  \(
+  r_i := x + i y \mod p
+  \)
+</div>
+
+<div class="subblock">
+  <div class="subheading">Lemma</div>
+  For \( 2 \leq L < p \), the sequence \( \{ r_i \} \) consists of pairwise independent random variables, each uniformly distributed over \( \mathbb{Z}_p \).
+</div>
+
+<div class="subblock">
+  <div class="subheading">Proof</div>
+  \begin{aligned}
+  \Pr[r_i \equiv c] &= \Pr[x + iy \equiv c] \\
+  &= \sum_{b} \Pr[x+iy \equiv c \; | \; y \equiv b]\Pr[y \equiv b] \\
+  &= \sum_{b} \Pr[x \equiv c-ib]\Pr[y \equiv b] \\
+  &= \frac{1}{p} \\
+  \end{aligned}
+  The mapping \((x,y)\) to \((r_i,r_j)\) is bijection \(: U \to U\). \(\Pr[r_i \equiv a \land r_j \equiv b] = \frac{1}{p^2} = \Pr[r_i \equiv a]\Pr[r_j \equiv b]\). Thus, \(r_i\) and \(r_j\) are independent.
+</div>
+
+<div class="subblock">
+  <div class="subheading">Theorem</div>
+  Let \( S \subseteq \mathbb{Z}_p \) be a subset with density \( \rho = \frac{|S|}{p} \). Then, the probability that at least one \( r_i \in S \) is at least \(
+  1 - (1 - \rho)^L.
+  \)
+</div>
+
+<div class="subblock">
+  <div class="subheading">Proof</div>
+  For \(1 \le i \le L\) define,
+  \[
+  \delta_i = \begin{cases}
+    1 & \text{if} r_i \in S \\
+    0 & \text{otherwise}
+  \end{cases}
+  \] 
+  By the lemma, each \(r_i\) is uniformly distributed in \(Z_p\). Thus,
+  \begin{aligned}
+  E[\delta_i] = \Pr[\delta_i = 1] = \rho 
+  \Var[X] = \rho(1-\rho)
+  \end{aligned}
+  By the lemma, \(r_i\) and \(r_j\) are independent random variables. Thus, \(\delta_i\) and \(\delta_j\) are independent random variables. Probability that no \(r_i\) is in \(S\),
+  \[
+  \Pr[\sum_{i=0}^{L} \delta_i] \le \Pr\left[ \left| \frac{1}{L}\sum_{i=0}^{L} - \E[\delta_i] \right| \ge \rho \right]
+  \]
+  Applying Chebyshev's inequality we get,
+  \[
+  \le \Pr\left[ \left| \frac{1}{L}\sum_{i=0}^{L} - \E[\delta_i] \right| \ge \rho \right] \le \frac{\Var[\frac{1}{L}\sum_{i=0}^{L}\delta_i]}{\rho^2}
+  \]
+  Let \(\bar{\delta}_i = \delta - \E[\delta_i]\). Then \(\E[\bar{\delta}_i = 0\). Note that \(\bar{\delta}_i\) and \(\bar{\delta_i}_j\) are independent random variables. Thus, \(E[\bar{\delta_i}\bar{\delta_j}] = \E[\bar{\delta_i}]\E[\bar{\delta_j}] = 0\). Hence,
+  \begin{aligned}
+    \Var[\frac{1}{L}\sum_{i=0}^{L} \delta_i] &= \frac{1}{L^2}\sum_{i=0}^L\sum_{j=0}^{L} \E[\bar{\delta_i}\bar{\delta_j}]
+    &= \frac{1}{L^2}L\E[\bar{\delta_1^2}] = \frac{\rho(1-\rho)}{L}
+  \end{aligned}
+  Thus, \[\boxed{\Pr[\sum]_{i=0}^L \delta_i = 0 \le (1-\rho)/\rho L}\].
+
+</div>
+
+<div class="subblock">
+  <div class="subheading">Remark: Estimating \(\rho\)</div>
+  Given a set of unknown density \(\rho\), procedure for membership in \(S\), and error allowance \(\epsilon\), the problem is to get an estimate \(\bar{\rho}\) for \(\rho\) with high probability \(|\bar{\rho} - \rho \lt \epsilon\). The following is a solution. Generate \(L\) samples by two points sampling technique, we can estimate \(rho\) by fraction of sampled points which belong to \(S\).
+  \[
+  \Pr[|\rho - \hat{\rho}| > \epsilon] \le \frac{\rho(1-\rho)}{\epsilon^2 L}
+  \]
+  <div class="subsubblock">
+
+  
+
+</div>
+
+<br><br>
+<div class="heading">Comparison with Independent Sampling</div>
+  Consider the universe set \(U\) and target set \(S\) and \(|S|/|U| = \rho\). The comparison is done by comparing the confidence parameter: probability of finding an element in the target set \(S\), for both the approaches. 
+
+  <div class=subblock><div class="subheading">Theorem: Independent Sampling</div>
+  Let \(T \in U\) be the set of \(k\) independent samples from \(U\) and \(\alpha_1\) be corresponding confidence parameter then,
+  \[
+  \alpha_1 = 1 -  (1 - \rho)^k
+  \] 
+  <div class="subblock"><div class="subheading">Theorem: Two point Sampling</div> 
+  Let \(T \in U\) be the set of \(L\) two points based samples from \(U\) and \(alpha_2\) be corresponding confidence parameter then,
+  \[
+  \alpha_2 = 1 - \frac{(1-\rho)}{\rho L}
+  \]
+
+  For two point sampling, to get same confidence as in independent sampling, we need \(L = 1/\rho(1-\rho)^{k-1}\). This is an exponential trade-off between randomness (represented by \(k\)-the number of independent random choices) and deterministic computation (represented by \(L\)).
+  
+  </div>
+  </div>
+<br><br>
+<div class="heading">\(k\)-wise Independent Sampling</div>
+The Two-points based sampling can be generalized to generate \(k\)-wise independent samples starting with \(k\) independent samples. Let \(\{ f_i\}_{i=0}^L\) be a sequence of functions, \(f_i: U_k \to U\) such that \((x_1, x_2,\ldots,x_k) \to (f_{i_1}(x_1,x2,\dots,x_k)),\dots,f_{i_k}(x_1,x_2,\ldots,x_k)\) is bijection of \(U_k\) onto itself for all \(1 \le i_1 \lt \ldots i_k \le L\). Choosing the elements \(x_1, x_2,\ldots,x_k\) independently gives the \(L\) \(k\)-wise independent samples \(f_1(x_1,x_2,\ldots,x_k),\dots,f_L(x_1,\ldots,x_k)\).
+<div class="subblock"><div class="subheading">Theorem: One possible \(f\)</div>
+The above is true for,
+\[
+\boxed{
+  f_{i}(x_1,\ldots,x_k) = \sum_{j=1}^{k} a_i^{j-1} x_j, \; \; a_i \in U
+}
+\]
+
+</div>
+
+              
+
+</div>
+
+  </div>
+
+  </div>
+  <!-- Footer -->
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+</html>

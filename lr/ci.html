@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body>
+<!-- Header  -->
+  <header class="site-header">
+    ralgos 
+    </header>
+    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+        <center>
+                                                            * Undergraduate Student, IIT Gandhinagar <br>
+                                                    # Sr. Lecturer, The University of Sydney
+        </center>
+    </div>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../proposal.html">Project Proposal</a>
+        <a href="../literature.html">Literature Review</a>
+        <a href="../progress.html">Findings</a>
+        <a href="../ralgolib.html">Ralgos</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+<!-- Body -->
+  <div class="container">
+    <div class="display">
+    <div class="title">Concentration Inequalities</div>
+    <div class="block">
+
+      <div class="heading">Introduction</div>
+
+      Concentration inequalities provide probabilistic bounds that quantify how a random variable deviates from some value. They are essential tools in probability theory, statistics, and machine learning. 
+      <br><br>
+     <div class="heading">Markov Inequality</div> 
+     <div class="subblock">
+     <div class="subheading">Theorem: Markov Inequality</div>
+      For any non-negative random variable \( X \geq 0 \), and for any \( t > 0 \),
+      \[
+      \boxed{
+      \Pr(X \geq t) \leq \frac{\mathbb{E}[X]}{t}
+      }
+      \]
+     </div>
+
+
+     <div class="subblock">
+     <div class="subheading">Proof</div>
+     The proof involves breaking the expectation integral from \(0\) to \(t\) and \(t\) to \(\infty\) and then bounding the resulting integrals. Let \(X\) be a random variable, such that \(X > 0\), with probablity distribution function \(f(x)\). Then,
+
+        
+        \[
+        \E[X] = \int_{0}^{\infty} x f(x)\,dx \\
+            = \int_{0}^{t} x f(x)\,dx + \int_{t}^{\infty} x f(x)\,dx \\
+            \ge \int_{0}^{t} 0 f(x)\,dx + \int_{t}^{\infty} t f(x)\,dx \\
+            = t \Pr[X \ge t] \\
+            \]\[\Pr[X \ge t] \le \frac{\E[X]}{t}
+        \]
+  
+      </div>
+
+      <div class="subblock">
+      <div class="subheading">Remark</div>
+      Markov's bound applies to \(\phi(X)\), where \(\phi(t)\) is a non-decreasing function with increase in \(t\). We use it to generate sharper bounds on \(Pr[X\ge t]\) by choosing appropriate \(\phi\). 
+      \[
+      \boxed{
+      \Pr[X\ge t] = \Pr[\phi(X) \ge \phi(t)] \le \frac{\E[\phi(X)]}{\phi(t)}
+      }
+      \]
+      
+     </div>
+
+     <br><br>
+     <div class="heading">Chebyshev Inequality</div>
+     <div class="subblock">
+     <div class="subheading">Theorem: Chebyshev Inequality</div>
+     For a random variable \(X\),
+      \[
+      \boxed{
+      \Pr[|X-\mu| \ge t] \le \frac{\Var[X]}{t^2}
+      }
+      \]
+
+     
+     </div>
+     <div class="subblock">
+      <div class="subheading">Proof</div>
+      Let \(X\) be a random variable and \(\mu = \E[X]\). We appy markov bound on \(\phi((X-\mu)^2)\) where \(\phi(t) = (t)^2\), 
+     \[
+     \begin{aligned}
+     \Pr[|X-\mu| \ge t] &= \Pr[\phi(|X-\mu|) \ge \phi(t)] \le \frac{\E[\phi(X)]}{\phi(t)}  \\
+     &\le \frac{\E[(X-\mu)^2]}{t^2} \\
+     &= \frac{\Var[X]}{t^2}
+     \end{aligned}
+     \]
+     </div>
+     <div class="heading">Chernoff Inequality</div> 
+
+     Let a random variable \(X\). We apply markov bound on \(\phi(X)\) where \(\phi(t) = e^{\lambda x}\) for \(\lambda \ge 0\). We get,
+     \[
+     \begin{aligned}
+     \Pr[X \ge t] &= \Pr[\phi(X) \ge \phi(t)] \le \frac{\E[\phi(X)]}{\phi(t)} \\
+     &\le \frac{\E[e^{\lambda X}]}{e^{\lambda t}} \\
+     &= e^{-\lambda t} \E[e^{\lambda X]} \\
+     &= \exp(-(\lambda t - \log \E[e^{\lambda X}]))
+     \end{aligned}
+     \]
+
+     <div class="subblock"><div  class="subheading">Defintion: Cumulant function</div>
+     Define \(\psi_{X}(\lambda)\) for a random variable, 
+
+     \begin{aligned}
+     \boxed{
+     \psi_{X}(\lambda) = \log \E[e^{\lambda X}] }\end{aligned}
+     
+     </div>
+      The above simplifies. Because this holds for all \(\lambda \gt 0\), we find the \(\lambda\) that gives the tightest bound.
+     \begin{aligned} \Pr[X \ge t] \le \exp(-(\lambda t - \psi_{X}(\lambda)))\end{aligned}
+     
+    
+     
+     \[
+     \begin{aligned}
+     \Pr[X \ge t] &\le \inf_{\lambda \ge 0}{\exp(-(\lambda t - \psi_{X}(\lambda)))} \\
+     &= \exp(-\sup_{\lambda \ge 0}(-\lambda t - \E[e^{\lambda X}]))
+     \end{aligned}
+     \] 
+     <div class="subblock"><div class="subheading">Defintion: Cramer Transform</div> 
+     We define Cramer tranform for a random variable \(X\), \[\boxed{\psi_{X}^{*}(t) = \sup_{\lambda \ge 0} \lambda t - \E[e^{\lambda X}]  }\]</div>
+     Thus, we get the following bound,
+     \[
+
+     \Pr[X\ge t] \le e^{-\psi_{X}^{*}(t)}
+
+     \]
+    
+     <div class="subblock">
+      <div class="subheading">Theorem: Chernoff Inequality</div>
+      For a random variable \(X\),
+      \[
+     \boxed{
+     \Pr[X\ge t] \le e^{-\psi_{X}^{*}(t)}
+     }
+     \]
+     </div>
+
+     <div class="subblock">
+     <div class="subheading">Remark: Properties of \(\psi_{X}(\lambda)\) and \(\psi_{X}^{*}(t) \)</div>
+    1. \(\exists \lambda \gt 0\) such that \(\psi_X(\lambda) \lt \infty\). Let \(b \gt 0\) be supremum over all \(\lambda\). <br>
+    2. \(\psi_X(\lambda)\) is infinitely differentiable over \((0,b)\). <br>
+    3. \(\psi_X(\lambda)\) is convex in \((0,b)\) (strict if \(X\) is constant). <br>
+    4. \(\psi_X^*(t)\) is convex. <br>
+    5. \(\psi_X^*{t} \) is non-negative. <br>
+    </div>
+    
+     <div class="subblock">
+     <div class="subheading">Example: Chernoff Bounds for some probablity distributions</div>
+     
+     Let \(X\) be a random variable.
+     <div class="subsubblock">
+     <div class="subsubheading">Normal distrbution</div>
+     Let \(X \sim \mathcal{N}(0,\sigma^2)\)
+     \[
+     \E[e^{\lambda X}] = \frac{1}{\sigma\sqrt{2\pi}}\int e^{\lambda}{x}e^{-X^2}{2\sigma^2}\, dx = e^{\frac{\lambda^2 \sigma}{2}}, \; \forall \lambda \in \R.
+     \]
+     \[
+     \forall t \ge 0, \; \psi_X^*(t) = \sup_\lambda (\lambda t - \frac{\sigma^2\lambda^2}{2}) = \frac{t^2}{2\sigma^2} 
+     \]
+     \[
+     \Pr[X \ge t] \le e^{-{\frac{t^2}{2\sigma^2}}}, \; t\ge 0 
+     \]
+     </div>
+     <div class="subsubblock">
+      <div class="subsubheading">Poisson distribution</div>
+      Will be updated.
+     </div>
+     </div>
+     <br>
+     <div class="heading">Sub-Gaussian Random Variables</div>
+     <div class="subblock">
+      Sub-gaussian random variables have cumulant function bounded by cumulant function of some normal distribution (with a variance parameter \(v)\). If we have a bound on cumulant distribution we can solve for cramer transform to get appropriate concentration bound. We know if \(G \sim \mathcal{N}(0,v) \) then, \(\ \psi_G (\lambda) = \lambda^2 v/2 \).
+     <div class="subheading">Defintion: Sub-Gaussian Random Variable</div>
+     A random variable \(X\) with \(E[X] = 0\) is said to be sub-gaussian if \(\exists v\) such that \(\forall \lambda \quad \psi_{X}(\lambda) \le \lambda^2v/2\) where \(v\) is the variance parameter.
+     \(\G(v)\) is set of subgaussain random variables with variance parameter \(v\).
+     </div>
+     <div class="subblock">
+     <div class="subheading">Remark</div>
+     1. If \(X_{i} \in \G(v_i) \) then \(\sum X_i \in \G\left( \sum v_i\right) \) <br>
+     2. If \(X \in \G(v) \) then \(\forall t \ge 0\), 
+     \(
+      \Pr[X\ge t] \le e^{-\frac{t^2}{2v}}  \) and \(
+    \Pr[X \le -t] \le e^{-\frac{t^2}{2v}}
+     \) <br>
+     3. If \(X\) in \(\G(v)\) then \( \Var(X) \le v\)
+      </div>
+
+      <br><br>
+     <div class="heading">Hoeffding Inequality</div>
+      Bounded random varaibles subguassian random varaibles. So, because of above, we can get bound over their cumulant function and solve for cramer transform.
+     <div class="subblock">
+     <div class="subheading">Lemma: Hoeffding's Lemma</div>
+     Let \(X\) be a random variable such that \(X \in [a,b]\) then,
+     \[
+     \boxed{
+     X \in \G\left( \frac{(b-a)^2}{4} \right)
+     }
+     \]
+     </div>
+
+     Because the cumulant function of subgaussian random variables is bounded, we have,
+     <div class="subblock">
+     <div class="subheading">Lemma</div>
+     Let \(X\) be a subgaussian random variable with \(\E[X]= 0\) and \(v\) variance parameter. Then 
+     \[\Pr[|X| \ge t] \le \exp(-t^2/2v)\]
+     </div>
+     Because of above Lemmas, it follows,
+     <div class="subblock">
+     <div class="subheading">Theorem: Hoeffding Inequality</div>
+     If \(X_{i} \in [a_i, b_i]\) and \(E[X_i] = 0\) then,
+     \[
+     \boxed{
+     \Pr\left[ \sum X_i \ge t\right] \le \exp\left( \frac{-2t^2}{\sum (a_i-b_i)^2} \right) 
+     }
+     \] 
+     </div>
+     
+
+     <br> <br>
+     <div class="heading">Benett Bound</div>  
+     Hoeffding's lemma assumes a worst case bound on the variance of \(X_i\) in \(X_{i=1}^{n} = \sum X_i\) of \(|b_i -a_i|^2/4\), if \(X_i \in [a_i, b_i]\). We can improve the bound by considering the variance of \(X_i\). <br> 
+     Let \(X_{i=1}^{n} = \sum X_i\) such that \(|X_i| \le C\) and \(\sigma^2 = \frac{1}{n}\sum_{i=1}{n}\Var[X_i]\). Then,
+     <div class="subblock"><div class="subheading"></div>
+     \begin{aligned}
+     \boxed{
+      \Pr[X\ge t] \le \exp\left( \frac{n\sigma^2}{C^2}h\left( \frac{tC}{\sigma^2}{n} \right) \right) \\
+      h(x) := (1+x)\log(1+x) -x, \; x \ge -1
+     }
+     \end{aligned}
+    </div>
+     <br> <br>
+     <div class="heading">Bernstein Bound</div> 
+     We use the following bound on \(h(x) \ge x^2/(2+(2/3)x)\). Then,
+     <div class="subblock"><div class=subheading>Theorem: Bernstein Inequality</div>
+    \[\boxed{
+    \Pr[X \ge t] \exp\left(\frac{-t^2}{2\sigma^2n+(2/3)Ct}\right)
+    }
+    \]
+    </div>
+     <br> <br>
+     
+     </div>
+
+<!-- Footer -->
+    </div>
+  </div>
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+
+</html>

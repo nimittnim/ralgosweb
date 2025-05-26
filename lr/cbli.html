@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header  -->
+  <header class="site-header">
+    ralgos 
+    </header>
+    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+        <center>
+                                                            * Undergraduate Student, IIT Gandhinagar <br>
+                                                    # Sr. Lecturer, The University of Sydney
+        </center>
+    </div>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../proposal.html">Project Proposal</a>
+        <a href="../literature.html">Literature Review</a>
+        <a href="../progress.html">Findings</a>
+        <a href="../ralgolib.html">Ralgos</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+<!-- Body -->
+  <div class="container">
+
+    <div class="display">
+    <div class="block">
+  <div class="title">Chernoff Bounds for Limited Independence</div>
+
+  <div class="heading">Introduction</div>
+  Let \( X = \sum_{i=1}^{n} X_i \), where the \( X_i \) are i.i.d. random variables. We obtain Chernoff bounds on \( X \) using Markov's inequality on a transformation \( \phi(X) \), typically with \( \phi(t) = e^{\lambda X} \) for \( \lambda \ge 0 \). However, tighter bounds can be achieved by choosing a more general \( \phi(t) \). Using a family of symmetric multilinear polynomials gives tighter bounds and need requirement of only \( k \)-wise independence among the \( X_i \)'s \(k \lt n\).
+
+  <div class="heading">Chernoff-Type Bounds</div>
+
+  <div class="subblock">
+    <div class="subheading">Theorem: Chernoff Inequality</div>
+    Let \( X_i \in \{0,1\} \) be i.i.d. random variables. Then, by Markov's inequality:
+    \[
+      \Pr[X \ge a] = \Pr[e^{tX} \ge e^{ta}] \le \frac{\mathbb{E}[e^{tX}]}{e^{ta}}
+    \]
+    Minimizing the right-hand side:
+    \[
+      \min_t \frac{\mathbb{E}[e^{tX}]}{e^{ta}} \le L(n, \mu, a) = 
+      \left( \frac{\mu}{a} \right)^a 
+      \left( \frac{n - \mu}{n - a} \right)^{n - a}
+    \]
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Theorem: Hoeffding’s Inequality</div>
+    Hoeffding extended the above theorem for non-identical \( X_i \in [0,1] \). Setting \( a = \mu(1 + \delta) \), and using the symmetry of \( L(n, \mu, a) \), we have:
+    \[
+      \begin{aligned}
+        \Pr[X \ge \mu(1 + \delta)] &\le 
+        \left[ 1 + \frac{\mu \delta}{n - \mu(1 + \delta)} \right]^{n - \mu(1 + \delta)} \big/ (1 + \delta)^{\mu(1 + \delta)} \\
+        \Pr[X \le \mu(1 - \delta)] &= \Pr[n - X \ge n - \mu(1 - \delta)] \le F(n, \mu, -\delta)
+      \end{aligned}
+    \]
+  </div>
+
+  <div class="heading">Method</div>
+
+  <div class="subblock">
+    <div class="subheading">Definition</div>
+    Define for \( z = (z_1, z_2, \ldots, z_n) \in \mathbb{R}^n \) a family of symmetric multilinear polynomials \( S_j(z) \), where:
+    \[
+      S_j(z) = \sum_{1 \le i_1 < \cdots < i_j \le n} z_{i_1} z_{i_2} \cdots z_{i_j}, \quad S_0(z) \equiv 1
+    \]
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Lemma</div>
+    If \( z_i \in \{0,1\} \), then for any integer \( j > 0 \),
+    \[
+      (z_1 + z_2 + \cdots + z_n)^j = \sum_{i=1}^{\min(j,n)} a_i S_i(z)
+    \]
+    for some non-negative integers \( a_i \). Conversely, for all \( j \in \{0,\ldots,n\} \), we have:
+    \[
+      \forall u \in \mathbb{R}^{j+1},\; \exists v \in \mathbb{R}^{j+1} \text{ such that } \sum_{i=0}^{j} u_i S_i(z) = \sum_{i=0}^{j} v_i (z_1 + \cdots + z_n)^i
+    \]
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Corollary</div>
+    For \( z_i \in \{0,1\} \) and any \( t > 0 \), there exist non-negative reals \( a_0, a_1, \ldots, a_n \) such that:
+    \[
+      e^{t(z_1 + \cdots + z_n)} = \sum_{i=0}^{n} a_i S_i(z)
+    \]
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Definition</div>
+    Define \( f_y(z) = \sum_{i=0}^n y_i S_i(z) \) for \( y = (y_0, \ldots, y_n) \in \mathbb{R}^{n+1} \).
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Note</div>
+    If \( z = z_1 + z_2 + \cdots + z_n = m \), then:
+    \[
+      f_y(z_1, \ldots, z_n) = \sum_{i=0}^{m} y_i \binom{m}{i}
+    \]
+  </div>
+
+  <div class="subblock">
+    <div class="subheading">Derivation</div>
+    \[
+      \begin{aligned}
+        \Pr[X \ge a] &= \Pr\left[f_y(X_1, \ldots, X_n) \ge \sum_{i=0}^{a} y_i \binom{a}{i}\right] \\
+        &\le \frac{\mathbb{E}[f_y(X_1, \ldots, X_n)]}{\sum_{i=0}^{a} y_i \binom{a}{i}} \\
+        &= \frac{\sum_{i=0}^{n} y_i S_i(p_1, \ldots, p_n)}{\sum_{i=0}^{a} y_i \binom{a}{i}}
+      \end{aligned}
+    \]
+    Our goal is now to minimize this bound over all \( y \in \mathbb{R}^{n+1} \).
+
+    <div class="subblock">
+      <div class="subheading">Lemma</div>
+      For any \( i > 0 \) and \( s \ge 0 \), the polynomial \( S_i(z_1, \ldots, z_n) \) is maximized when all \( z_j = s/n \), subject to \( \sum_{j=1}^{n} z_j = s \).
+    </div>
+
+    Thus, we have:
+    \[
+      \Pr[X \ge a] \le \frac{\sum_{i=0}^{n} y_i \binom{n}{i} p^i}{\sum_{i=0}^{a} y_i \binom{a}{i}}
+    \]
+    Noting that:
+    \[
+      \frac{\binom{n}{i+1} p^{i+1} / \binom{a}{i+1}}{\binom{n}{i} p^i / \binom{a}{i}} = \frac{(n - i) p}{a - i}
+    \]
+    which is increasing or decreasing based on \( i \). The minimum occurs at:
+    \[
+      i^* = \left\lceil \frac{a - \mu}{1 - \mu / n} \right\rceil = \left\lceil \frac{\mu \delta}{1 - \mu / n} \right\rceil
+    \]
+    Set \( y_i = 0 \) for all \( i \neq i^* \) and \( y_{i^*} = 1 \). Then we get:
+    \[
+      \boxed{
+        \Pr[X \ge \mu(1 + \delta)] \le U_1(n, p_1, \ldots, \delta) = \frac{S_{i^*}}{\binom{\mu(1 + \delta)}{i^*}}
+      }
+    \]
+  </div>
+</div>
+
+      
+      </div>
+<!-- Footer -->
+    </div>
+  </div>
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header  -->
+  <header class="site-header">
+    ralgos 
+    </header>
+    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+        <center>
+                                                            * Undergraduate Student, IIT Gandhinagar <br>
+                                                    # Sr. Lecturer, The University of Sydney
+        </center>
+    </div>
+    <nav class="navbar">
+        <a href="../index.html">Home</a>
+        <a href="../proposal.html">Project Proposal</a>
+        <a href="../literature.html">Literature Review</a>
+        <a href="../progress.html">Findings</a>
+        <a href="../ralgolib.html">Ralgos</a>
+        <a href="../contact.html">Contact</a>
+    </nav>
+<!-- Body -->
+  <div class="container">
+    <div class="display">
+    <div class="title">Expander Graphs for Probablity Amplification</div>
+    <div class="block">
+     <div class="heading">Introduction</div>
+    Randomized algorithms can be viewed as two-input algorithms: the problem instance and a random string. Good random strings yield correct outputs, and independent sampling increases the chance of hitting one, but at the cost of high randomness. A more efficient alternative is to perform a random walk on an expander graph over the random input space \(U\). Since expander walks mix rapidly and approximate uniform sampling, a well-designed expander can achieve a similar success probability with much less randomness.
+
+     <div class="heading">Expander Graphs</div>
+     Expander graphs are the graphs which are sparse "yet" strongly connected. Consider an undirected \(d\)-regular (each vertex has d edges) graph \(G = (V,E)\). Let \(S,T \subset V\).
+     <div class="subblock">
+     <div class="subheading">Definition: Expander graphs</div>
+      Define \(E(S,T) :=\) set of edges between vertices in \(S\) and \(T\) and \(E(S) :=\) set of edges between vertices in \(S\). <br>
+      1. Edge Boundary \(\delta S = E(S, \bar{S})\) where \(\bar{S} = V - S\) <br>
+      2. Expansion Ratio of G,
+      \[
+      h(G) = \min_{ \{S \; : \; |S| \lt \frac{n}{2}\}} \frac{\delta S}{S}
+      \] 
+      Sequence of \(d\)-regular graphs \(\{G_{i}\}_{i \in \N}\) is family of expander grpahs if \(\exists \, \epsilon \gt 0, \; h(G_i) \ge \epsilon \; \forall i \).
+      </div>
+      <div class="subblock">
+        <div class="subheading">Definition: Spectrum</div>
+        Let \(A\) be the adjacency matrix of a graph \(G = (V,E)\) such that \(|V| = n\). Then, we the eigenvalues of \(A\) 
+        \((\lambda_1, \lambda_2\,\ldots,\lambda_n)\) are called spectrum of graph \(G\).
+      </div>
+
+      <div class="subblock"><div class="subheading">Theorem: Cheeger's Inequality</div>
+      Let a \(d\)-regular graph \(G = (V,E)\) with spectral density \(\lambda_1,\lambda_2,...\lambda_n\) where \(n = |V|\). If \(\lambda = max( \lambda_2,\ldots,\lambda_n)\) then, 
+
+      \[
+      \frac{d-\lambda}{2} \le h(G) \le \sqrt{2d(d-\lambda)}
+      \]
+      </div>
+      So, if a \(d\)-regular graph has lower \(\lambda\) then, it has higher expansion ration (G is a good expander). Lower \(\lambda\) implies greater difference between highest and second highest eigen values, i.e., higher specral gap.
+      <div class="subblock">
+      <div class="subheading">Remark</div>
+        We wish the family of expander graphs to have the following properties:<br>
+        1. The graphs should be easy and efficient to construct.<br>
+        2. The neighborhood of any given vertex should be efficiently computable.
+      </div>
+
+
+      <div class="subblock">
+      <div class="subheading">Definition: Explicitness</div>
+      Let \(\{G_{i}\}_i\) be family of expander graphs where \(G_i\) is a \(d\)-regular graph on \(n_i\) vertices.<br>
+      1. Family is mildly explicit if there is an algorithm that generates \(j\)th graph in \(G_i\) in time poly(\(j\)).<br>
+      2. Family is very explicit if there is an algorithm that on input \(i\), a vertex \(v \in V(G_i)\) and \(k\) computes \(k\)th neighbour of \(V\) in time poly(\(i\),\(|v|\),\(k\)).
+      </div>
+
+      <!-- <div class="subblock">
+      <div class="subheading">Example</div>
+      1. \(8\)-regular \(G_m\) graphs. The vertex set for \(m\)th graph \(G_m\), \(V_m\) = \(Z_m \times Z_m\). Edges set: <br> . Clearly, this family is very explicit.
+      2.  
+      </div> -->
+      
+      <div class="subblock">
+        <div class="subheading">Theorem: Expander Mixing Lemma</div>
+        Let \(G\) be a \(d\)-regular graph with n vertices and \(\lambda_1,\ldots,\lambda_n\) be spectrum of \(G\). Set \(\lambda = \max\{|\lambda_2|,|\lambda_n\}\). Then, for all \(S,T \subset V\),
+        \[
+        \boxed{
+          \left| E(S,T) - \frac{d|S||T|}{n} \right| \le \lambda\sqrt{|S||T|}
+        }
+        \] 
+      </div>
+      Becuase \(E(S,T)\) is the number of edges between vertices in \(S\) and \(T\) and \(d|S||T|/n\) is the expected number of edges if G was a random graph, a lower \(lambda\) implies random walks on \(G\) mix quickly. And we see above that good expanders have lower \(\lambda\). 
+
+
+      <div class="heading">Expander Graph for Probablity Amplification</div>
+
+      
+      <div class="subblock">
+        <div class="subheading">Definition: Random Walk</div>
+        A random walk on a finite graph \(G = (V,E) \) is a discrete-time stochastic process \(X_0, X_1, \ldots\) taking values in \(V\). The vertex \(X_0\) is sampled from some initial distribution on \(V\), and \(X_{i+1}\) is chosen uniformly at random from the neighbors of \(X_i\).
+      </div>
+      <div class="subblock">
+        <div class="subheading">Remark</div>
+        Let \(G\) be a \(d\)-regular graph with adjancency matrix \(A\) and normalized adjacency matrix \(\hat{A} = \frac{1}{d}A\). Then, <br>
+        1. Random walk on \(G = (V,E)\) is a markov chain on set \(V\) with transition matrix \(\hat{A}\)<br>
+        2. \(\hat{A}\) is real, symmetric and doubly stochastic.
+        3. The stationary distribution for random walk on \(G\) is uniform distribution over \(V\) becuase \(\hat{A}u = u\).
+      </div>
+      
+      <div class="subblock"><div class="subheading">Definition</div>
+      A \(d\)-regular graph \(G = (V,E)\) with \(|V| = n\) is called an \(n,d,\alpha\) graph if specturm of \(G\) satisfies, \(\lambda_2,\ldots,\lambda_n\lambda \le \alpha d\).
+      </div>
+
+      <div class="subblock">
+      <div class="subheading">Theorem: Rapid Convergence to stationary Distribution</div>
+      Let \(G\) be an \((n,d,\alpha)\)-graph with normalized adjacency matrix \(\hat{A}\). Then for any distribution vector \(p\) and any positive integer \(t\): \(||\hat{A}^tp - u||_1 \le n \alpha t\). 
+      </div>
+
+
+      Consider set \(B \subset V\) and \(|B| = n\beta\). We want to sample at least one element in \(V-B\). Using independent sampling, the probability of not sampling at least one element in \(V-B\) can be reduced exponentially. This requires \(t\log n\) random bits. 
+      
+      <div class="subblock"><div class="subheading">Theorem: Independent Sampling</div>
+      Let \(S \in V\) be set of independent samples and \(|S| = t\) then,
+      \[
+      \Pr[S \cap (V -B) = \phi] \le \beta ^ t 
+      \]
+      </div>
+
+      We can show that comparable peroformance can be achieved by sampling \(t\) vertices with \(t\)-length random walk on a \((n,d,\alpha)\) graph \(G\) with vertex set \(V\). We determine the probability of not visiting any vertex in \(V - B\) in the walk. 
+      <div class="subblock"><div class="subheading">Theorem: Random Walk on Expander</div>
+      Let \((B(t))\) be the event that random walk is confined to vertices in \(B\). Then,
+      \[\boxed{\Pr[(B,t)] \le (\alpha+\beta)^t}\]
+      </div>
+
+     
+      
+    </div>
+  <!-- Footer -->
+    </div>
+  </div>
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+
+</html>
