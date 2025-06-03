@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <title>Ralgos</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -29,11 +30,26 @@
     <div class="display">
       <br>
       <div class="block">
-      <div class="heading">Project Abstract</div>
+      <div class="heading">What is Probability Amplification ?</div>
+      Suppose, you have an algorithm \(A\) for a decision problem such that it gives the correct answer with probability at least \(p > 1/2\). Although \(A\) may fail with some probability, but such algorithms are generally "simple" and "efficient". Typically, these type of algorithms use randomly generated inputs; thus are called randomized algorithms. Besides the failure probability, randomized algorithms have another caveat: requiredment of randomly generated input. Various methods have been developed to reduce the probability of error and requirement of randomness for randomized algorithms. These methods are called Probability Amplification techniques. 
+      <br><br>Back to \(A\), one way to reduce failure probability is by repeating \(A\) and returning the majority vote as the final answer. Now, we wish to figure out the minimum number of repetitions, so that the probability of success for repeated-\(A\) exceeds certain threshold, \(p_n > q\). One method to find \(n\) is chernoff inequality. The following figure illustrates,
+      <image src="fi/plots/2.png" height="300" class="centered-image"></image>
 
-      Randomized algorithms typically come with two caveats: they require access to a "good" random seed, and have a probability of failure. Many techniques exist to mitigate both aspects, such as using k-wise independent hash functions (to reduce the amount of randomness required) and probability amplification techniques (to reduce the probability of failure). This project will consist of (1) an extensive literature review of techniques for probability amplification, and (2) an implementation and empirical evaluation of their performance, for a couple of key applications.
-        </div>
-    
+      <div class="heading">What is this Project ?</div>
+      In this project, we investigate, implement, evaluate and compaure probablity amplification techniques for randomized algorithms. We organise and classify these techniques to aid both practical applications and research in this field.
+        <br><br>
+      <div class="heading">Description of Website</div>
+      This website has multiple sections, accessible from the naviagation bar at the top. They are listed below along with their objective: <br>
+      # Home: Introduction to Project <br>
+      # Project Proposal: Project Proposal for the project <br>
+      # Literature Review: Quick Summaries of related researh papers <br>
+      # Findings: Findings of the project so far  <br>
+      # Ralogs: Progress and documentation for ralgos package <br>
+      # Contact: Contact details <br>
+
+
+
+      </div>
     </div>
   </div>
   <footer class="site-footer">
