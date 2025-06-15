@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header -->
+<header class="site-header">
+  ralgos
+</header>
+<div id="copyright">
+  This is the webpage for project "Probability Amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+  <center>
+    * Undergraduate Student, IIT Gandhinagar <br>
+    # Sr. Lecturer, The University of Sydney
+  </center>
+</div>
+<nav class="navbar">
+  <a href="../index.html">Home</a>
+  <a href="../proposal.html">Project Proposal</a>
+  <a href="../literature.html">Literature Review</a>
+  <a href="../progress.html">Findings</a>
+  <a href="../ralgolib.html">Ralgos</a>
+  <a href="../contact.html">Contact</a>
+</nav>
+
+<!-- Body -->
+<div class="container">
+  <div class="display">
+    <div class="title">Universal Family of Hash Functions</div>
+    <div class="block">
+
+
+      <div class="heading">Universal Family of Hash Functions</div>
+
+      <div class="subblock">
+        <div class="subheading">Definition: Universal Hash Family</div>
+        Let \(\mathcal{H}\) be a family of hash functions \(h : U \rightarrow M\) mapping a universe \(U\) into a finite set \(M\). Then \(\mathcal{H}\) is said to be universal if for all distinct \(x, y \in U\),
+        \[
+        \Pr_{h \in \mathcal{H}}[h(x) = h(y)] \le \frac{1}{|M|}
+        \]
+        where the probability is taken over uniform choice of \(h\) from \(\mathcal{H}\).
+      </div>
+
+
+      <div class="subblock">
+        <div class="subheading">Definition: \(k\)-wise Independent Hash Family</div>
+        A family \(\mathcal{H}\) is \(k\)-wise independent if for any distinct \(x_1, \ldots, x_k \in U\), and any \(y_1,\ldots,y_k \in M\),
+        \[
+        \Pr_{h \in \mathcal{H}}[h(x_1) = y_1, \ldots, h(x_k) = y_k] = \frac{1}{|M|^k}
+        \]
+        Such families are useful for derandomizing algorithms and reducing sample complexity.
+      </div>
+
+      <div class="subblock">
+        <div class="subheading">Remark</div>
+        2-wise independence implies universality.
+      </div>
+
+      <div class="heading">Universal Hash Function Construction</div>
+
+<div class="subblock">
+  Let \( p \) be a prime and define a family of hash functions:
+  \[
+  \mathcal{H} = \left\{ h_{a,b}(x) = (a x + b) \bmod p \mid a \in \{1, \ldots, p{-}1\}, b \in \{0, \ldots, p{-}1\} \right\}
+  \]
+  Then \( \mathcal{H} \) is a universal family from any universe \( U \subseteq \mathbb{Z}_p \) to \( \mathbb{Z}_p \). For distinct \( x, y \in U \),
+  \[
+  \Pr_{h \in \mathcal{H}}[h(x) = h(y)] \le \frac{1}{p}
+  \]
+</div>
+
+      <div class="heading">Universal Sampling</div>
+
+<div class="subblock">
+  Suppose we want to sample \( n \) values from a large universe \( U \). Choose a prime \( p > n \), and pick \( a \in \{1,\ldots,p{-}1\}, b \in \{0,\ldots,p{-}1\} \) uniformly at random. Define:
+  \[
+  s_i = (a i + b) \bmod p \quad \text{for } i = 1,\ldots,n
+  \]
+  The resulting sequence \( s_1, \ldots, s_n \in \mathbb{Z}_p \) are pairwise independent samples over \( \mathbb{Z}_p \). This provides a low-randomness method for universal sampling suitable for randomized algorithms, sketching, and derandomization.
+</div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  &copy; 2025 Nimitt. All rights reserved.
+</footer>
+</body>
+</html>

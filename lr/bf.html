@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<!-- Header -->
+<header class="site-header">
+  ralgos
+</header>
+<div id="copyright">
+  This is the webpage for project "Probability Amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+  <center>
+    * Undergraduate Student, IIT Gandhinagar <br>
+    # Sr. Lecturer, The University of Sydney
+  </center>
+</div>
+<nav class="navbar">
+  <a href="../index.html">Home</a>
+  <a href="../proposal.html">Project Proposal</a>
+  <a href="../literature.html">Literature Review</a>
+  <a href="../progress.html">Findings</a>
+  <a href="../ralgolib.html">Ralgos</a>
+  <a href="../contact.html">Contact</a>
+</nav>
+
+<!-- Body -->
+<div class="container">
+  <div class="display">
+    <div class="title">Bernoulli Factory</div>
+    <div class="block">
+
+      <div class="heading">Introduction</div>
+      Suppose we are given a \( \text{Bernoulli}(p) \) generator, where \( p \) is unknown. The Bernoulli Factory problem is to construct a new \( \text{Bernoulli}(f(p)) \) generator using only access to the original generator, without ever knowing \( p \) directly.
+
+      <br><br>
+
+      <div class="heading">Bernoulli Factory</div>
+
+      <div class="subblock">
+        <div class="subheading">Definition</div>
+        Given a function \( f : [0,1] \to [0,1] \), the Bernoulli Factory problem asks whether it is possible to simulate a coin that lands heads with probability \( f(p) \), using only independent samples from a coin that lands heads with probability \( p \), where \( p \) is unknown.
+      </div>
+
+      <div class="subblock">
+        <div class="subheading">Example: \( f(p) = \frac{1}{2} \)</div>
+        We can simulate an unbiased coin from a biased one as follows:
+        <ul>
+          <li>Flip the \( p \)-coin twice.</li>
+          <li>If the result is 01, return Head; if 10, return Tail.</li>
+          <li>If the result is 00 or 11, repeat the process.</li>
+        </ul>
+        This is known as the von Neumann trick.
+      </div>
+
+     <div class="subblock">
+  <div class="subheading">Theorem: Keane and O'Brien (1994)</div>
+  A function \( f : (0,1) \to (0,1) \) can be implemented by a Bernoulli Factory if and only if:
+  \[
+  f \text{ is continuous and } \exists \epsilon > 0 \text{ such that } \epsilon \le f(p) \le 1 - \epsilon \text{ for all } p \in (0,1)
+  \]
+</div>
+
+
+      <div class="heading">Bernoulli Factory Techniques</div>
+
+      <!-- 1. Exact Construction Techniques -->
+      <div class="subblock">
+        <div class="subheading">Exact Constructions</div>
+        For specific functions like \( f(p) = \frac{1}{2} \), \( f(p) = 2p \) (for \( p \le \frac{1}{2} \)), or \( f(p) = p^k \), exact Bernoulli Factory algorithms exist.
+
+        <ul>
+          <li><b>Example: von Neumann trick</b><br>
+            Use two independent samples from \( \text{Bern}(p) \). Return Head if the sequence is 01, Tail if 10, and repeat otherwise. This produces a fair coin from an unknown bias:
+            \[
+            \mathbb{P}(01) = p(1-p),\quad \mathbb{P}(10) = (1-p)p \Rightarrow \text{Symmetric}
+            \]
+          </li>
+
+
+          </li>
+        </ul>
+      </div>
+
+      <!-- 2. Bernstein Polynomial Approximation -->
+      <div class="subblock">
+        <div class="subheading">Bernstein Polynomial Approximation</div>
+        For a continuous function \( f : [0,1] \to [0,1] \), the Bernstein polynomial approximation is defined as:
+        \[
+        B_n(f)(x) = \sum_{k=0}^n f\left(\frac{k}{n}\right) \binom{n}{k} x^k (1-x)^{n-k}
+        \]
+        This converges uniformly to \( f \) as \( n \to \infty \). Now, consider the following construction, 
+        <ul>
+          <li>Flip the \( p \)-coin \( n \) times.</li>
+          <li>Let \( k \) be the number of Heads (i.e., \( k \sim \text{Binomial}(n, p) \)).</li>
+          <li>Return Head with probability \( f(k/n) \),.</li>
+        </ul>
+
+        We note that \(\E[f(k/p) = B_n(f)(p) \approx f(p)\). This allows approximating \( \text{Bern}(f(p)) \) using \( n \) samples from \( \text{Bern}(p) \).
+      </div>
+
+      <!-- 3. Martingale and Stopping Rules -->
+      <div class="subblock">
+        <div class="subheading">Martingale and Stopping Rules</div>
+        Martingale-based constructions define a sequence of estimators \( M_0, M_1, \dots \) such that:
+        \[
+        \mathbb{E}[M_{t+1} \mid M_0, \dots, M_t] = M_t
+        \]
+        and \( M_t \in [0,1] \), with \( \lim_{t \to \infty} M_t = f(p) \).
+
+        A stopping rule determines when to halt the process and output Head/Tail based on threshold crossing.
+
+        These constructions are powerful but often abstract and require delicate analysis to ensure correctness and efficiency.
+      </div>
+
+      <!-- 4. Rejection Sampling and Interval Methods -->
+      <div class="subblock">
+        <div class="subheading">Interval Rejection Sampling</div>
+        Maintain an interval \([L_t, U_t]\) such that:
+        \[
+        \mathbb{P}(\text{Head} \mid \text{history}) \in [L_t, U_t]
+        \]
+        At each step, the interval shrinks depending on the new coin flips. When the interval becomes narrow enough, or includes a decision boundary, we return Head or Tail accordingly.
+
+        This method is used in modern algorithms for general \( f(p) \), including the Nacu-Peres algorithm and other adaptive schemes.
+      </div>
+
+      <!-- 5. Thinning and Dominated Factories -->
+      <div class="subblock">
+        <div class="subheading">Dominated Bernoulli Factory (Thinning Method)</div>
+        If we can construct a simpler Bernoulli generator \( g(p) \ge f(p) \), then simulate \( \text{Bern}(g(p)) \), and accept Head with probability \( f(p)/g(p) \) (using auxiliary randomness).
+        Often applied in compound Poisson processes or random walk simulations where \( f(p) \) is bounded above by an easily simulatable function.
+
+        Care is needed to ensure \( f(p) \le g(p) \) for all \( p \), else the method is invalid.
+      </div>
+
+      <!-- 6. Convex Combinations of Simulatable Functions -->
+      <div class="subblock">
+        <div class="subheading">Convex Combination Method</div>
+        Suppose:
+        \[
+        f(p) = \sum_{i} \alpha_i f_i(p), \quad \text{where } \sum_i \alpha_i = 1 \text{ and each } f_i \text{ has a factory}
+        \]
+        Then we:
+        <ul>
+          <li>Sample index \( i \) with probability \( \alpha_i \).</li>
+          <li>Run the Bernoulli Factory for \( f_i(p) \).</li>
+        </ul>
+
+        This strategy allows building complex factories from simpler components.
+      </div>
+
+        <div class="subblock">
+  So, Bernoulli Factory allows building new randomized primitives from unknown sources, which is critical when direct access to probability values is unavailable. These techniques form the core of advanced simulation, exact sampling, and derandomization efforts in both classical and quantum computing.
+</div>
+
+      <!-- <div class="heading">Applications of Bernoulli Factory</div>
+
+      <div class="subblock">
+
+
+</div> -->
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  &copy; 2025 Nimitt. All rights reserved.
+</footer>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    ralgos
+  </header>
+
+  <div id="copyright">
+    This is the webpage for project "Probability Amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#}
+    <br>
+    <center>
+      * Undergraduate Student, IIT Gandhinagar <br>
+      # Sr. Lecturer, The University of Sydney
+    </center>
+  </div>
+
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="../proposal.html">Project Proposal</a>
+    <a href="../literature.html">Literature Review</a>
+    <a href="../progress.html">Findings</a>
+    <a href="../ralgolib.html">Ralgos</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div class="display">
+      <div class="block">
+
+        <br>
+        <div class="heading">Documentation</div>
+
+        
+        <pre><code><b>ralgos</b></code></pre>
+        <hr>
+        <pre><code><b>ralgos.generator</b></code></pre>
+        <pre><code><b>ralgos.generator.uuniform(p=104729, m=100, seed=None)</b>
+→ Generate a universal hash-based uniform random number generator.
+
+Parameters:
+    p: int
+        A large prime modulus. Default 104729.
+    m: int
+        Output values lie in [0, m). Default 100.
+    seed: int
+        Seed for reproducibility.
+
+Returns:
+    Generator instance (uuniform)
+
+Example:
+    gen = uuniform(seed=42)
+    gen.sample(3)  # [12, 45, 99]
+</code></pre>
+
+        <pre><code><b>ralgos.generator.kuniform(k, p=104729, m=100, seed=None)</b>
+→ Generate a k-wise independent uniform random number generator.
+
+Parameters:
+    k: int
+        Independence degree.
+    p: int
+        A large prime. Default 104729.
+    m: int
+        Output range is [0, m). Default 100.
+    seed: int
+        Seed for RNG.
+
+Returns:
+    Generator instance (kuniform)
+
+Example:
+    gen = kuniform(3, seed=10)
+    gen.sample(3)  # [14, 72, 33]
+</code></pre>
+
+        <pre><code><b>ralgos.generator.uniform(m=100, seed=None)</b>
+→ Wrapper for standard uniform distribution.
+
+Parameters:
+    m: int
+        Max value (exclusive).
+    seed: int
+        Optional seed.
+
+Returns:
+    Generator
+</code></pre>
+
+        <pre><code><b>ralgos.generator.normal(mean=0.0, std=1.0, seed=None)</b>
+→ Standard Gaussian generator.
+
+Parameters:
+    mean: float
+        Mean of normal distribution.
+    std: float
+        Standard deviation.
+    seed: int
+        Seed for RNG.
+
+Returns:
+    Generator
+</code></pre>
+
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+</html>

@@ -47,6 +47,9 @@ a {
     max-width: 100%;    /* responsive */
 }
 
+pre{
+  border:solid black 1px;
+}
 
 .heading{
   color:blue;

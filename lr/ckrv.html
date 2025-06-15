@@ -8,37 +8,92 @@
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<!-- Header  -->
-  <header class="site-header">
-    ralgos 
-    </header>
-    <div id="copyright">This is the webpage for project "Probablity amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
-        <center>
-                                                            * Undergraduate Student, IIT Gandhinagar <br>
-                                                    # Sr. Lecturer, The University of Sydney
-        </center>
-    </div>
-    <nav class="navbar">
-        <a href="../index.html">Home</a>
-        <a href="../proposal.html">Project Proposal</a>
-        <a href="../literature.html">Literature Review</a>
-        <a href="../progress.html">Findings</a>
-        <a href="../ralgolib.html">Ralgos</a>
-        <a href="../contact.html">Contact</a>
-    </nav>
-<!-- Body -->
-  <div class="container">
-    <div class="display">
-        <br>
-        <div class="block">
-        Will be Updated soon.
-    </div>
-    </div>
-<!-- Footer -->
-  </div>
-  <footer class="site-footer">
-    &copy; 2025 Nimitt. All rights reserved.
-  </footer>
-</body>
+<!-- Header -->
+<header class="site-header">
+  ralgos
+</header>
+<div id="copyright">
+  This is the webpage for project "Probability Amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+  <center>
+    * Undergraduate Student, IIT Gandhinagar <br>
+    # Sr. Lecturer, The University of Sydney
+  </center>
+</div>
+<nav class="navbar">
+  <a href="../index.html">Home</a>
+  <a href="../proposal.html">Project Proposal</a>
+  <a href="../literature.html">Literature Review</a>
+  <a href="../progress.html">Findings</a>
+  <a href="../ralgolib.html">Ralgos</a>
+  <a href="../contact.html">Contact</a>
+</nav>
 
+<!-- Body -->
+<div class="container">
+  <div class="display">
+    <div class="title">k-wise Independent family of Hash Functions</div>
+    <div class="block">
+
+      <div class="heading">Introduction</div>
+      In randomized algorithms, we often need to simulate independence among several variables. While full independence requires high randomness, k-wise independence offers a more efficient tradeoff, allowing us to guarantee independence over any subset of \(k\) variables using far less randomness. Hash functions from a k-wise independent family are a practical tool for constructing such distributions in a compact and computationally efficient manner.
+      <br><br>
+      <div class="heading">k-wise Independent Family of Hash Functions</div>
+
+      <div class="subblock">
+        <div class="subheading">Definition: k-wise Independence</div>
+        A family \(\mathcal{H}\) of hash functions \(h : U \to M\) is called *k-wise independent* if for any distinct \(x_1, x_2, \ldots, x_k \in U\) and any \(y_1, y_2, \ldots, y_k \in M\),
+        \[
+        \Pr_{h \in \mathcal{H}}[h(x_1) = y_1, \ldots, h(x_k) = y_k] = \frac{1}{|M|^k}
+        \]
+        This ensures that for any subset of \(k\) inputs, their hash values are uniformly and independently distributed in \(M\).
+      </div>
+
+      <div class="subblock">
+        <div class="subheading">Remark</div>
+        <ul>
+          <li>2-wise independence implies universality</li>
+          <li>Higher \(k\) improves concentration and statistical accuracy</li>
+        </ul>
+      </div>
+
+      <div class="subblock">
+        <div class="subheading">Theorem: Random Variable Concentration</div>
+        Let \(X_1, \ldots, X_n\) be Boolean random variables defined via a \(k\)-wise independent hash function, and let \(X = \sum X_i\). Then, for appropriate \(k\), Chernoff-type tail bounds still hold:
+        \[
+        \Pr[|X - \mathbb{E}[X]| \ge \epsilon \mathbb{E}[X]] \le e^{-\Omega(\epsilon^2 \mathbb{E}[X])}
+        \]
+        This allows strong concentration with much fewer random bits than full independence.
+      </div>
+
+      <div class="heading">k-wise Independent Construction</div>
+
+      <div class="subblock">
+        Let \(p\) be a prime. Define the family:
+        \[
+        \mathcal{H}_k = \left\{ h(x) = \sum_{i=0}^{k-1} a_i x^i \bmod p \mid a_0, \ldots, a_{k-1} \in \mathbb{Z}_p \right\}
+        \]
+        This family is \(k\)-wise independent from \(\mathbb{Z}_p \to \mathbb{Z}_p\). For any distinct \(x_1, \ldots, x_k\), the evaluations \(h(x_i)\) are uniformly distributed and mutually independent.
+      </div>
+
+
+      <div class="heading">k-wise Independent Sampling</div>
+
+      <div class="subblock">
+        To generate \(n\) pairwise or \(k\)-wise independent samples from a large domain \(\mathbb{Z}_p\), choose \(a_0, \ldots, a_{k-1} \in \mathbb{Z}_p\) uniformly and define:
+        \[
+        s_i = \sum_{j=0}^{k-1} a_j i^j \bmod p \quad \text{for } i = 1,\ldots,n
+        \]
+        The values \(s_1, \ldots, s_n \in \mathbb{Z}_p\) are \(k\)-wise independent. This enables efficient low-randomness sampling schemes, crucial in derandomization, streaming, and hashing applications.
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  &copy; 2025 Nimitt. All rights reserved.
+</footer>
+</body>
 </html>
