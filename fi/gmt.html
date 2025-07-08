@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ralgos</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+  <header class="site-header">ralgos</header>
+
+  <div id="copyright">
+    This is the webpage for project "Probability amplification for Randomized Algorithms" being taken by Nimitt{*} under the supervision of Prof. Clement Canonne{#} <br>
+    <center>
+      * Undergraduate Student, IIT Gandhinagar <br>
+      # Sr. Lecturer, The University of Sydney
+    </center>
+  </div>
+
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="../proposal.html">Project Proposal</a>
+    <a href="../literature.html">Literature Review</a>
+    <a href="../progress.html">Findings</a>
+    <a href="../ralgolib.html">Ralgos</a>
+    <a href="../contact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div class="display">
+      <div class="researchpaper">
+        <div class="title">Distributed Gaussian Mean Testing under Communication Constraints with Limited Randomness</div>
+
+        <div class="section">Problem</div>
+
+        We study the sample complexity for distributed gaussian mean testing under communication constraints with limited shared randomness among users. 
+
+        <div class="definition" data-title="Gaussian Mean Testing (GMT)"></div>
+        Define \((d, \ell, s, \varepsilon)\)-GMT as a distributed setting problem involving userser and a central referee. Each user \(i\) samples an independent sample \( x_i \sim \mathcal{N}(\mu, I_d) \) where \(\mu \in \R^d\) is an unknown vector and communicates \(l\) bits to the central referee. Users can access a \(s\) bit random string. 
+        
+        The solution to problem is the protocol that enables central referee to determine which of the following two hypothesis is correct, with high probability,
+        \[ H_0: \mu = 0 \quad \text{(Null Hypothesis)} \\
+           H_1: \|\mu\|_2 \geq \varepsilon \quad \text{(Alternative Hypothesis)} \]
+
+        for some  \( \varepsilon > 0 \).
+
+        <div class="definition" data-title="Sample Complexity">
+        Define sample complexity for the \((d, \ell, s, \varepsilon)\)-GMT problem as the minimum number of users required, \(n(d, \ell, s, \varepsilon) \), to solve the problem.
+        </div>
+
+        The cases \(s = 0\) and \(s = \infty\) correspond to private-coin and public-coin settings. Acharya et al. [1] derive upper and lower bounds for sample complexity in these two extremes. However, the intermediate regime, with shared randomness budget \(s\), remains largely unexplored. In this article, we show upper bound for the sample complexity in the case \(s = O(\log d)\).
+
+        <div class="section">Protocol</div>
+
+        In the public-coin protocol of [1], users apply a shared Haar random rotation to their sample, spreading the signal across all coordinates, requiring infinte randomness. This allows each user to send the signs of only the first \(\ell\) coordinates of the sample to the referee. We replicate this approach using the Subsampled Randomized Hadamard Transform (SRHT) as approximation to the Haar random rotation, which is computationally efficient and uses finite structured randomness.
+
+        <div class="definition" data-title="Subsampled Randomized Hadamard Transform">
+        Define \(S\) as \((d,\ell)\)- SRHT, if \( S_{\ell\times d} \in \mathbb{R}^{\ell \times d} \) and \( S = PHD \), where:
+        <ul>
+          <li>\(D_{d\times d}\) is a diagonal matrix with independent Rademacher random variables</li>
+          <li>\(H_{d \times d}\) is the normalized Hadamard matrix of size \(d \times d\)</li>
+          <li>\(P_{\ell \times d}\) is a projection matrix that selects first \(\ell\) elements</li>
+        </ul>
+        </div>
+
+        <div class="remark">
+        The construction of a \((d, \ell)\)-SRHT requires sampling \(d\) independent samples from the rademacher distribution, thus, \(d\) needs random bits. However, we later show that for our case only needs \(O(\log d)\) random bits.
+        </div>
+
+        <div class="section">Closeness of SRHT to Haar Random Rotation</div>
+        <div class="lemma" data-title="Flattening Lemma">
+        Let \( \mu \in \R^d \) be a fixed vector with \( \|\mu\|_2 = \epsilon \). Let \(R\) be a \((d,\ell)\)-SRHT. Then, we have:
+        \[
+       \Pr\left[ ||R\mu||_2^2 \geq \epsilon^2 \cdot \frac{\ell}{d} \cdot \left( 1 - \frac{\log(2)}{l} \right) \right] \gt 1/2
+        \]
+        </div>
+
+        <div class="proof">
+        Let \(R = PHD\), where \(P\), \(H\) are as per Definition 3 with \(d\) and \(\ell\) and \(D = \text{diag}(\xi_1, \ldots, \xi_d) \), \( \xi_i \in \{\pm1\} \) Rademacher. Note that, \(R\) is a \((d,\ell)\)-SRHT. Let \( y_i = \sum_{j=1}^d H_{ij} \mu_j \xi_j \).
+
+        Each \( y_i \) is a sub-Gaussian random variable with variance parameter \( \sigma^2 = \frac{\epsilon^2}{d} \), since:
+        \[
+        \mathbb{E}[y_i^2] = \sum_{j=1}^d H_{ij}^2 \mu_j^2 = \frac{1}{d} \|\mu\|^2 = \frac{\epsilon^2}{d}
+        \]
+
+        Let \( Z = \sum_{i=1}^{\ell} y_i^2 \). Then:
+        \[
+        \mathbb{E}[Z] = \frac{\ell}{d} \epsilon^2
+        \]
+
+        Now, \( y_i^2 \) is sub-exponential, and we apply a Bernstein concentration inequality [2]:
+        \[
+        \mathbb{P}\left[ Z \le \mathbb{E}[Z] - t \right] \le \exp\left( - \min\left( \frac{t^2}{\ell \sigma^4}, \frac{t}{\sigma^2} \right) \right)
+        \]
+
+        Setting \( t = \epsilon^2 \cdot \frac{\ln(2)}{d} \) yields:
+        \[
+        \mathbb{P}\left[ Z \le \frac{\ell}{d} \epsilon^2 - \epsilon^2 \cdot \frac{\log(2)}{d} \right] \le 1/2
+        \]
+        </div>
+
+        <div class="section">Sample Complexity</div>
+
+        Using Flattening Lemma and (Section 3.2, [1]), we have,
+ 
+        <div class="theorem" data-title="Sample Complexity with Limited Randomness">
+          For an \((d,\ell,O(\log d),\varepsilon)\)-GMT problem, the sample complexity follows the upper bound,
+        \[
+        \boxed{
+        n = O\left( \frac{ d }{ \sqrt{\ell} \cdot \varepsilon^2} \cdot \frac{1 }{ 1 - \log(2)/l } \right)
+        }
+  
+        \]
+        </div>
+
+
+        <div class="section">References</div>
+        [1] Acharya, J., Canonne, C.L. & Tyagi, H.. (2020). Distributed Signal Detection under Communication Constraints <i>Proceedings of Thirty Third Conference on Learning Theory</i>, in <i>Proceedings of Machine Learning Research</i> 125:41-63. <a href="https://proceedings.mlr.press/v125/acharya20b.html">Link</a>
+        <br><br>
+        [2] Roman Vershynin. <i>High-Dimensional Probability: An Introduction with Applications in Data Science</i>. Cambridge Series in Statistical and Probabilistic Mathematics. Cambridge University Press, 2018.  <a href="https://www.cambridge.org/core/books/highdimensional-probability/797C466DA29743D2C8213493BD2D2102" target="_blank">Link</a>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    &copy; 2025 Nimitt. All rights reserved.
+  </footer>
+</body>
+</html>

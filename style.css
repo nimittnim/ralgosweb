@@ -25,6 +25,7 @@ a {
   background-color: white;
   text-align: left;
   font-family: "CMU Serif", serif;
+  font-size: larger;
 }
 
 .site-footer {
@@ -125,4 +126,98 @@ pre{
 
 .navbar a:hover {
   background-color: #575757;
+}
+
+/* ############## ############## Research Paper ############## ############## ############## */
+.researchpaper{
+  margin: 30px;
+}
+
+.researchpaper .title{
+  font-size: xx-large;
+  text-align: center;
+}
+
+/* Environment containers */
+.theorem{
+  border-left: 3px solid #333;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.lemma{
+  border-left: 3px solid #333;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.definition{
+  border-left: 3px solid #333;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.remark{
+  border-left: 3px solid #333;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.proof{
+  border-left: 3px solid #333;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background: #f9f9f9;
+  position: relative;
+}
+
+.section{
+  margin: 0.5em 0;
+  color: blue;
+  font-size: x-large;
+}
+
+/* Individual label styles */
+.theorem-label {
+  font-weight: bolder;
+  color: rgb(173, 13, 13);
+}
+
+.lemma-label {
+  font-weight: bold;
+  color: #2b6f2b;
+}
+
+.definition-label {
+  font-weight: bold;
+  color: #8a6e00;
+}
+
+.remark-label {
+  font-weight: bold;
+  color: #800000;
+}
+
+.proof-label {
+  font-weight: bold;
+  color: #444;
+}
+
+.code-label {
+  font-weight: bold;
+  color: #999;
+  font-family: monospace;
+}
+
+.section-label {
+  color: blue;
+  font-size: x-large;
 }
