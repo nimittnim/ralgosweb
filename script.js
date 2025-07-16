@@ -17,7 +17,7 @@ window.MathJax = {
       R: "\\mathbb{R}",
       N: "\\mathbb{N}",
       Z: "\\mathbb{Z}",
-      G:"\\mathbb{G}",
+      G: "\\mathbb{G}",
       Q: "\\mathbb{Q}",
       S: "\\mathbb{S}",
       "1": "\\mathbf{1}",
@@ -29,27 +29,35 @@ window.MathJax = {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  const envTypes = ["section", "theorem", "lemma", "proof", "definition", "remark", "code"];
+  const envTypes = ["section", "theorem", "lemma", "definition", "remark", "code"];
+  const unnumberedTypes = ["proof"];  // don't number proofs
+
   const counters = {};
   const labelMap = {};
 
   envTypes.forEach(type => counters[type] = 0);
 
-  envTypes.forEach(type => {
+  [...envTypes, ...unnumberedTypes].forEach(type => {
     document.querySelectorAll("." + type).forEach(el => {
-      counters[type]++;
       const label = document.createElement("span");
-      const labelClass = `${type}-label`;
-      const number = counters[type];
       const title = el.dataset.title ? ` (${el.dataset.title})` : "";
-      const labelText = type === "section"
-      ? `${number}${title.slice(2)}` // skip section
-      : `${capitalize(type)} ${number}${title}`;
-      label.className = labelClass;
+      let labelText = "";
+
+      if (envTypes.includes(type)) {
+        counters[type]++;
+        labelText = `${capitalize(type)} ${counters[type]}${title}`;
+      } else {
+        labelText = `${capitalize(type)}${title}`;
+      }
+
+      label.className = `${type}-label`;
       label.innerHTML = el.id ? `<a href="#${el.id}">${labelText}</a>` : labelText;
-      labelMap[el.id] = labelText;
-      el.prepend(label);
       label.insertAdjacentText("beforeend", ". ");
+      el.prepend(label);
+
+      if (el.id) {
+        labelMap[el.id] = labelText;
+      }
     });
   });
 
@@ -62,5 +70,3 @@ document.addEventListener("DOMContentLoaded", function () {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 });
-
-

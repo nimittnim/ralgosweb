@@ -140,7 +140,6 @@ pre{
 
 /* Environment containers */
 .theorem{
-  border-left: 3px solid #333;
   padding: 0.5em 1em;
   margin: 1em 0;
   background: #f9f9f9;
@@ -148,7 +147,6 @@ pre{
 }
 
 .lemma{
-  border-left: 3px solid #333;
   padding: 0.5em 1em;
   margin: 1em 0;
   background: #f9f9f9;
@@ -156,7 +154,6 @@ pre{
 }
 
 .definition{
-  border-left: 3px solid #333;
   padding: 0.5em 1em;
   margin: 1em 0;
   background: #f9f9f9;
@@ -164,7 +161,6 @@ pre{
 }
 
 .remark{
-  border-left: 3px solid #333;
   padding: 0.5em 1em;
   margin: 1em 0;
   background: #f9f9f9;
@@ -172,7 +168,6 @@ pre{
 }
 
 .proof{
-  border-left: 3px solid #333;
   padding: 0.5em 1em;
   margin: 1em 0;
   background: #f9f9f9;
@@ -209,6 +204,7 @@ pre{
 .proof-label {
   font-weight: bold;
   color: #444;
+  font-style: italic;
 }
 
 .code-label {
